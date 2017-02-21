@@ -172,10 +172,6 @@ if options[:primer_3_preferences][:primer_product_size_range]
   options[:flanking_size] = max
 end
 
-p options
-p ARGV
-
-
 #TODO: Use temporary files somewhere in the file system and add traps to delete them/forward them as a result. 
 #TODO: Make all this parameters
 
@@ -192,7 +188,13 @@ test_file=options[:mutant_list] if options[:mutant_list]
 fasta_reference = options[:reference]
 output_folder="#{test_file}_primer_design_#{Time.now.strftime('%Y%m%d-%H%M%S')}" 
 output_folder= options[:output_folder] if  options[:output_folder]
-Dir.mkdir(output_folder)
+# Already exists directory exception
+begin
+  Dir.mkdir(output_folder)
+rescue
+    puts "Failure: output directory #{output_folder}"
+else
+
 #TODO Make this tmp files
 temp_fasta_query="#{output_folder}/to_align.fa"
 temp_contigs="#{output_folder}/contigs_tmp.fa"
@@ -390,4 +392,5 @@ rescue StandardError => e
 rescue Exception => e
   write_status "ERROR\t#{e.message}"
   raise e  
+end
 end
