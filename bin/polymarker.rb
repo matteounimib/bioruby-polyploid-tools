@@ -80,7 +80,7 @@ options[:primer_3_preferences] = {
 
 OptionParser.new do |opts|
   opts.banner = "Usage: polymarker.rb [options]"
-
+  
   opts.on("-c", "--contigs FILE", "File with contigs to use as database") do |o|
     options[:path_to_contigs] = o
   end
@@ -154,12 +154,14 @@ OptionParser.new do |opts|
   opts.on("-H", "--het_dels", "If present, change the socring to give priority to: semi-specific, specific, non-specific")  do
     options[:scoring] = :het_dels
   end
-
-
+  
+  opts.on_tail("-h", "--help", "") do
+    puts opts
+    exit
+  end
 
   
 end.parse!
-
 
 validate_files(options)
 
